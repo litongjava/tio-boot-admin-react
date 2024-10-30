@@ -1,0 +1,10 @@
+[prod.upload-run]
+url = "http://xxxx:10405/deploy/file/upload-run/"
+p = "123456"
+b = ".build.txt"
+z = "dist.zip dist"
+file = "dist.zip"
+d = "unzip/enote-admin-react"
+c1 = "mkdir -p /data/apps/enote-admin-react && mkdir -p backup/enote-admin-react"
+c2 = "[ -d /data/apps/enote-admin-react ] && cp -r /data/apps/enote-admin-react backup/enote-admin-react/$(date +%Y%m%d_%H%M%S)"
+c = "cp -r unzip/enote-admin-react/dist/* /data/apps/enote-admin-react"
