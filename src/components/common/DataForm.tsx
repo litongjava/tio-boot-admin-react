@@ -1,7 +1,6 @@
 import React from 'react';
 import {ModalForm} from '@ant-design/pro-components';
-import {Button, Form} from 'antd';
-import {request} from "@@/exports";
+import {Form} from 'antd';
 
 
 type DataFormProps = {

@@ -1,10 +1,9 @@
 import {Form, Image, message, Upload} from "antd";
 import React, {useState} from "react";
 import {RcFile, UploadFile} from "antd/lib/upload/interface";
-import {PlusOutlined, UploadOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
 import {UploadChangeParam} from "antd/es/upload/interface";
 import PasteUpload from "@/components/common/PasteUpload";
-import {ProFormText} from "@ant-design/pro-components";
 
 type UploadImageProps = {
   label?: any
