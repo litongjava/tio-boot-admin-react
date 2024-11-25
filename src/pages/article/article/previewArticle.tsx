@@ -1,20 +1,20 @@
 import React from "react";
-import {getArticleById} from "@/pages/system/article/systemArticleService";
+import {getArticleById} from "@/pages/article/article/systemArticleService";
 import {message} from "antd";
 // @ts-ignore
 import {useParams} from 'umi';
 import './previewArticel.css'
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
+import '@wangeditor/editor/dist/css/style.css'
 
 const SystemPreviewArticle: React.FC = () => {
-  const {id} = useParams<{ id: string }>(); // 使用泛型确保类型正确
+  const {id} = useParams<{ id: string }>();
   // 编辑器内容
   const [html, setHtml] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [messageApi, contextHolder] = message.useMessage();
   // 使用 useEffect 来在组件挂载时获取文章内容
   React.useEffect(() => {
-    if (id && id != ':id') {
+    if (id && id !== ':id') {
       getArticleById(id).then(response => {
         if (response.ok) {
           setTitle(response.data.title);

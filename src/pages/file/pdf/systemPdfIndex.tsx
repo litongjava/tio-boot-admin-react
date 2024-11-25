@@ -1,21 +1,21 @@
 import React from 'react';
 import {
-  batchRemoveSystemImages,
-  createSystemImages,
-  exportAllSystemImages,
-  exportSystemImages,
-  pageSystemImages,
-  removeSystemImages
-} from './systemImagesService';
+  batchRemoveSystemPdf,
+  createSystemPdf,
+  exportAllSystemPdf,
+  exportSystemPdf,
+  pageSystemPdf,
+  removeSystemPdf
+} from './systemPdfService';
 import ProDataTable from "@/components/common/ProDataTable";
-import {customUploadImageToGoogle} from "@/services/system/systemService";
+import {customUploadToTencent} from "@/services/system/systemService";
 import UploadFileItem from "@/components/common/UploadFileItem";
 import {UploadProps} from "antd/lib/upload/interface";
+import {systemPdfColumns} from "@/pages/file/pdf/systemPdfColumn";
 import {useNavigate} from "@@/exports";
-import {systemImagesColumns} from "@/pages/system/images/systemImagesColumn";
 
 
-const SystemImagesManagement: React.FC = () => {
+const SystemPdfManagement: React.FC = () => {
   let navigate = useNavigate();
   const [fileList, setFileList] = React.useState<any[]>([]);
 
@@ -35,6 +35,10 @@ const SystemImagesManagement: React.FC = () => {
   }
 
   const beforeCreateRequest = (params: any) => {
+
+    // 提取上传组件的数据
+    // {uid: '-1', name: 'xxx.png', status: 'done', url: 'http://www.baidu.com/xxx.png'}
+
     params.urls = fileList.map((file: any) => {
       console.log("file:", file);
       return {
@@ -49,6 +53,7 @@ const SystemImagesManagement: React.FC = () => {
     });
 
     params.id_type = "long";
+    // params.urls_type = 'string[]';
     params.json_fields_type = 'string[]';
     params.json_fields = ["urls"];
     return params;
@@ -60,26 +65,42 @@ const SystemImagesManagement: React.FC = () => {
     params.deleted = 0
     params.json_fields_type = 'string[]';
     params.json_fields = ["urls"];
-    params.orderBy = 'name';
+    params.orderBy = 'version';
     params.isAsc = 'false';
+    // params.md5Op = "ct";
+    // params.filenameOp = "ct";
+    // params.target_nameOp = "ct";
+    //params.status = 1;
+    //params.orderBy = "create_time";
+    // params.orderBy = "update_time";
     return params;
   }
 
-  const columns = systemImagesColumns();
+  const secondaryOptions = {
+    title: 'Edit',
+    valueType: 'option',
+    width: 200,
+    render: (text: any, record: any) => [
+      <a key="preView" onClick={() => navigate("/docx/" + record.id, {replace: true})}>
+        Preview
+      </a>,
+    ],
+  };
+
+  const columns = [...systemPdfColumns(), secondaryOptions];
 
   return (
-    <ProDataTable columns={columns} createRequest={createSystemImages} deleteRequest={removeSystemImages}
-                  batchRemoveRequest={batchRemoveSystemImages}
-                  pageRequest={pageSystemImages}
-                  exportRequest={exportSystemImages}
-                  exportAllRequest={exportAllSystemImages}
+    <ProDataTable columns={columns} createRequest={createSystemPdf} deleteRequest={removeSystemPdf}
+                  batchRemoveRequest={batchRemoveSystemPdf}
+                  pageRequest={pageSystemPdf}
+                  exportRequest={exportSystemPdf}
+                  exportAllRequest={exportAllSystemPdf}
                   beforePageRequest={beforePageRequest}
                   beforeCreateRequest={beforeCreateRequest}
                   onFormVisibleChange={onFormVisibleChange}>
 
       <UploadFileItem label="Files" max={1} name="urls" fileList={fileList} onChange={handleChange}
-                      customRequest={customUploadImageToGoogle}/>
-
+                      customRequest={customUploadToTencent}/>
       <div>
         {fileList.map((file) => {
           return <div key={file.id || file.response?.data.id}>{file.url || file.response?.data.url}</div>
@@ -90,4 +111,4 @@ const SystemImagesManagement: React.FC = () => {
   );
 };
 
-export default SystemImagesManagement;
+export default SystemPdfManagement;

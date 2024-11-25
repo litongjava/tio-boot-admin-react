@@ -1,38 +1,45 @@
 import React, {useState} from "react";
-import jsPreviewDocx from "@js-preview/docx";
+import jsPreviewPdf from "@js-preview/pdf";
 import '@js-preview/docx/lib/index.css';
 // @ts-ignore
 import {useParams} from 'umi';
 import {Button, message, Upload} from "antd";
-import {getDocxById} from "@/pages/system/docx/systemDocxService";
+import {getPdfById} from "@/pages/file/pdf/systemPdfService";
 
 const PreviewDocx: React.FC = () => {
   const {id} = useParams<{ id: string }>();
   // 使用useRef创建一个引用
-  const docxRef = React.useRef(null);
+  const pdfRef = React.useRef(null);
 
-  const [messageApi, contextHolder] = message.useMessage();
   const [name, setName] = useState("")
   const [urls, setUrls] = useState<any[]>([])
+  const [messageApi, contextHolder] = message.useMessage();
+  const [pdfViewer, setPdfViewer] = React.useState<any | null>(null);
 
   function preview(url: string) {
-    if (docxRef.current) {
+    if (pdfRef.current) {
       // 在组件挂载后初始化预览器，并确保DOM节点已经加载
-      const myDocxPreviewer = jsPreviewDocx.init(docxRef.current);
+      let callBack = {
+        onRendered: () => {
+          messageApi.success('预览完成');
+        },
+        onError: (e?: any) => {
+          messageApi.error('预览失败:' + url);
+        },
+      };
+
+      // @ts-ignore
+      const pdfViewer = jsPreviewPdf.init(pdfRef.current, callBack);
+      setPdfViewer(pdfViewer)
 
       // 传递要预览的文件地址
-      myDocxPreviewer.preview(url)
-        .then(res => {
-          messageApi.success('预览完成');
-        }).catch(e => {
-        messageApi.error('预览失败:' + url + ":", e);
-      });
+      pdfViewer.preview(url);
     }
   }
 
   React.useEffect(() => {
     if (id && id != ':id') {
-      getDocxById(id).then(response => {
+      getPdfById(id).then(response => {
         if (response.ok) {
           const name = response.data.name;
           setName(name)
@@ -46,6 +53,7 @@ const PreviewDocx: React.FC = () => {
       }).catch(err => messageApi.error('Failed to fetch article: ' + err));
     }
   }, [id]);
+
 
   const downloadFile = (url: string) => {
     const link = document.createElement('a');
@@ -61,7 +69,6 @@ const PreviewDocx: React.FC = () => {
       downloadFile(urlObj.url);
     });
   };
-
   return (
     <>
       {contextHolder}
@@ -74,7 +81,7 @@ const PreviewDocx: React.FC = () => {
             <Button onClick={handleDownload} type="primary">Download</Button>
           </div>
         </div>
-        <div ref={docxRef} id="docx"></div>
+        <div ref={pdfRef} id="docx"></div>
       </div>
     </>
 

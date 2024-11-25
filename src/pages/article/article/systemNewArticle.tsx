@@ -1,20 +1,21 @@
 import React from "react";
 import CommonEditor from "@/components/common/CommonEditor";
 import {ProForm, ProFormText} from "@ant-design/pro-components";
-import {createSystemArticle, getArticleById} from "@/pages/system/article/systemArticleService";
+import {createSystemArticle, getArticleById} from "@/pages/article/article/systemArticleService";
 import {Form, message} from "antd";
 // @ts-ignore
 import {useParams} from 'umi';
 
 const SystemNewArticle: React.FC = () => {
-  const {id} = useParams<{ id: string }>(); // 使用泛型确保类型正确
+  // 使用泛型确保类型正确
+  const {id} = useParams<{ id: string }>();
   // 编辑器内容
   const [html, setHtml] = React.useState('')
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   // 使用 useEffect 来在组件挂载时获取文章内容
   React.useEffect(() => {
-    if (id && id != ':id') {
+    if (id && id !== ':id') {
       getArticleById(id).then(response => {
         console.log("response:{}", response)
         form.setFieldsValue({id: response.data.id, title: response.data.title});

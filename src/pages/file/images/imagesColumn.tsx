@@ -1,8 +1,8 @@
 import React from 'react';
 import {ProColumns} from '@ant-design/pro-components';
-import UploadImagePreview from "@/components/common/UploadImagePreview";
+import UploadPreview from "@/components/common/UploadPreview";
 
-export const systemImagesColumns = (): ProColumns<any>[] => [
+export const tio_boot_admin_file_images_columns = (): ProColumns<any>[] => [
   {
     "title": "Name",
     "dataIndex": "name",
@@ -23,15 +23,15 @@ export const systemImagesColumns = (): ProColumns<any>[] => [
     "valueType": "text",
   },
   {
-    "title": "Urls",
-    "dataIndex": "urls",
+    "title": "Files",
+    "dataIndex": "files",
     "valueType": "text",
     "hideInForm": true,
     search: false,
     render: (_, record) => (
-      <UploadImagePreview
+      <UploadPreview
         listType="picture-circle"
-        fileList={record.urls}
+        fileList={record.files}
       />
     ),
   },

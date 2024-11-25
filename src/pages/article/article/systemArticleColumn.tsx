@@ -1,4 +1,3 @@
-import React from 'react';
 import {ProColumns} from '@ant-design/pro-components';
 
 export const systemArticleListColumns = (): ProColumns<any>[] => [

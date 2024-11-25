@@ -1,6 +1,6 @@
 import React from 'react';
 import ProDataTable from "@/components/common/ProDataTable";
-import {systemArticleListColumns} from "@/pages/system/article/systemArticleColumn";
+import {systemArticleListColumns} from "@/pages/article/article/systemArticleColumn";
 import {
   batchRemoveSystemArticle,
   createSystemArticle,
@@ -9,6 +9,7 @@ import {
   pageSystemArticle,
   removeSystemArticle
 } from './systemArticleService';
+// @ts-ignore
 import {useNavigate} from 'umi';
 
 const SystemArticleManagement: React.FC = () => {

@@ -26,8 +26,58 @@ export default [
     ]
   },
   {
+    path: '/file',
+    name: 'file',
+    icon: 'FolderOutlined',
+    hideInMenu: false,
+    routes: [
+      {
+        path: '/file/images',
+        name: 'Images',
+        hideInMenu: false,
+        component: './file/images/imagesIndex',
+      },
+      {
+        path: '/file/docx',
+        name: 'Docx',
+        hideInMenu: false,
+        component: './file/docx/systemDocxIndex',
+      },
+      {
+        path: '/file/pdf',
+        name: 'Pdf',
+        hideInMenu: false,
+        component: './file/pdf/systemPdfIndex',
+      },
+    ]
+  },
+  {
+    path: '/article',
+    name: 'article',
+    icon: 'FileWordOutlined',
+    routes: [
+      {
+        path: 'articleCategory',
+        name: 'Article Category',
+        component: './article/articleCategory/articleCategoryIndex',
+      },
+      {
+        path: '/article/newArticle/:id',
+        name: 'Create Article',
+        hideInMenu: false,
+        component: './article/article/systemNewArticle',
+      },
+      {
+        path: '/article/article',
+        name: 'Article',
+        hideInMenu: false,
+        component: './article/article/systemArticleIndex',
+      },
+    ],
+  },
+  {
     path: '/system',
-    name: 'System',
+    name: 'system',
     icon: 'setting',
     hideInMenu: false,
     routes: [
@@ -41,36 +91,6 @@ export default [
         name: 'Upload File',
         hideInMenu: false,
         component: './system/uploadFile/uploadFileIndex',
-      },
-      {
-        path: '/system/images',
-        name: 'Images',
-        hideInMenu: false,
-        component: './system/images/systemImagesIndex',
-      },
-      {
-        path: '/system/newArticle/:id',
-        name: 'Create Article',
-        hideInMenu: false,
-        component: './system/article/systemNewArticle',
-      },
-      {
-        path: '/system/article',
-        name: 'Article',
-        hideInMenu: false,
-        component: './system/article/systemArticleIndex',
-      },
-      {
-        path: '/system/docx',
-        name: 'Docx',
-        hideInMenu: false,
-        component: './system/docx/systemDocxIndex',
-      },
-      {
-        path: '/system/pdf',
-        name: 'Pdf',
-        hideInMenu: false,
-        component: './system/pdf/systemPdfIndex',
       },
       {
         path: '/system/url',
@@ -134,21 +154,21 @@ export default [
     hideInMenu: true,
     layout: false,
     name: 'PreviewArticle',
-    component: './system/article/previewArticle',
+    component: './article/article/previewArticle',
   },
   {
     path: '/docx/:id',
     //hideInMenu: true,
     layout: false,
     name: 'PreviewDocx',
-    component: './system/docx/previewDocx',
+    component: './file/docx/previewDocx',
   },
   {
     path: '/pdf/:id',
     //hideInMenu: true,
     layout: false,
     name: 'PreviewPDF',
-    component: './system/pdf/previewPdf',
+    component: './file/pdf/previewPdf',
   },
 
   {

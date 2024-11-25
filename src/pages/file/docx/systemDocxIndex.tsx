@@ -11,7 +11,7 @@ import ProDataTable from "@/components/common/ProDataTable";
 import {customUploadToTencent} from "@/services/system/systemService";
 import UploadFileItem from "@/components/common/UploadFileItem";
 import {UploadProps} from "antd/lib/upload/interface";
-import {systemDocxColumns} from "@/pages/system/docx/systemDocxColumn";
+import {systemDocxColumns} from "@/pages/file/docx/systemDocxColumn";
 import {useNavigate} from "@@/exports";
 
 
