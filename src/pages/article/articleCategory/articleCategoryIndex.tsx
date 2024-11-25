@@ -8,7 +8,7 @@ import {articleCategoryColumns} from "@/pages/article/articleCategory/articleCat
 
 
 export default () => {
-  const from = "tio_boot_admin_system_article_category";
+  const from = "tio_boot_admin_article_category";
   return (
     <ApiTableLong
       from={from}

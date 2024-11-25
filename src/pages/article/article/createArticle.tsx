@@ -1,12 +1,12 @@
 import React from "react";
 import CommonEditor from "@/components/common/CommonEditor";
 import {ProForm, ProFormText} from "@ant-design/pro-components";
-import {createSystemArticle, getArticleById} from "@/pages/article/article/systemArticleService";
+import {createSystemArticle, getArticleById} from "@/pages/article/article/articleService";
 import {Form, message} from "antd";
 // @ts-ignore
 import {useParams} from 'umi';
 
-const SystemNewArticle: React.FC = () => {
+const CreateArticle: React.FC = () => {
   // 使用泛型确保类型正确
   const {id} = useParams<{ id: string }>();
   // 编辑器内容
@@ -56,4 +56,4 @@ const SystemNewArticle: React.FC = () => {
   )
 }
 
-export default SystemNewArticle;
+export default CreateArticle;

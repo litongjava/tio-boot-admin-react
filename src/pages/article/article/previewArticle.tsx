@@ -1,12 +1,12 @@
 import React from "react";
-import {getArticleById} from "@/pages/article/article/systemArticleService";
+import {getArticleById} from "@/pages/article/article/articleService";
 import {message} from "antd";
 // @ts-ignore
 import {useParams} from 'umi';
 import './previewArticel.css'
 import '@wangeditor/editor/dist/css/style.css'
 
-const SystemPreviewArticle: React.FC = () => {
+const PreviewArticle: React.FC = () => {
   const {id} = useParams<{ id: string }>();
   // 编辑器内容
   const [html, setHtml] = React.useState('')
@@ -35,4 +35,4 @@ const SystemPreviewArticle: React.FC = () => {
   );
 }
 
-export default SystemPreviewArticle;
+export default PreviewArticle;

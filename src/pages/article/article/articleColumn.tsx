@@ -31,6 +31,18 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
     },
   },
   {
+    title: 'category_id',
+    dataIndex: 'category_id',
+  },
+  {
+    title: 'views',
+    dataIndex: 'views',
+  },
+  {
+    title: 'visibility',
+    dataIndex: 'visibility',
+  },
+  {
     title: 'Remark',
     dataIndex: 'remark',
   },
@@ -49,6 +61,4 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
     hideInTable: true,
     hideInForm: true,
   },
-
-
 ];

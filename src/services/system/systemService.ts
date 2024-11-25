@@ -78,32 +78,6 @@ export async function generateSd3(file: any, formValues: any): Promise<API.Resul
   });
 }
 
-
-export async function customUploadForEditor(file: File, insertFn: any) {
-  // file 即选中的文件
-  // 自己实现上传，并得到图片 url alt href
-  // 最后插入图片
-  uploadToTencent(file).then(response => {
-    if (response.ok) {
-      let url = response.data.url;
-      let alt = response.data.id;
-      insertFn(url, alt, url)
-    } else {
-      insertFn("", "fail", "")
-    }
-  });
-}
-
-export async function uploadFile(category: string, file: any) {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('category', category);
-  return request<API.Result>('/api/system/file/upload', {
-    method: 'POST',
-    data: formData,
-  });
-}
-
 // Function to calculate the MD5 hash of a file
 function calculateFileMd5(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -130,6 +104,46 @@ async function checkFileExistence(md5: string) {
     method: 'GET',
   });
 }
+
+export async function uploadFile(category: string, file: any) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('category', category);
+  return request<API.Result>('/api/system/file/upload', {
+    method: 'POST',
+    data: formData,
+  });
+}
+
+export async function uploadForEditor(file: File) {
+  const md5 = await calculateFileMd5(file);
+  const response = await checkFileExistence(md5);
+  if (response.ok && response.data) {
+    return response;
+  } else {
+    // File does not exist, proceed with upload
+    return uploadFile("", file)
+      .then(response => {
+        return response;
+      })
+  }
+}
+
+export async function customUploadForEditor(file: File, insertFn: any) {
+  // file 即选中的文件
+  // 自己实现上传，并得到图片 url alt href
+  // 最后插入图片
+  uploadForEditor(file).then(response => {
+    if (response.ok) {
+      let url = response.data.url;
+      let alt = response.data.id;
+      insertFn(url, alt, url)
+    } else {
+      insertFn("", "fail", "")
+    }
+  });
+}
+
 
 // Modified customUploadToS3 function
 export async function customUpload(category: string, options: UploadOptions) {
