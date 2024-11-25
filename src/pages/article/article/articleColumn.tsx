@@ -1,4 +1,5 @@
 import {ProColumns} from '@ant-design/pro-components';
+import UploadPreview from "@/components/common/UploadPreview";
 
 export const systemArticleListColumns = (): ProColumns<any>[] => [
   {
@@ -18,7 +19,6 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
     title: 'content',
     dataIndex: 'content',
     valueType: "textarea",
-    hideInForm: true,
     ellipsis: true,
     formItemProps(form) {
       return {
@@ -41,6 +41,14 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
   {
     title: 'visibility',
     dataIndex: 'visibility',
+  },
+  {
+    title: "Files",
+    dataIndex: "files",
+    valueType: "text",
+    hideInForm: true,
+    search: false,
+    render: (_, record) => <UploadPreview listType="picture-circle" fileList={record.files} />,
   },
   {
     title: 'Remark',

@@ -8,12 +8,17 @@ export default () => {
   const from = "tio_boot_admin_article";
   let navigate = useNavigate();
 
-  const beforePageRequest = (params: any) => {
+  const beforePageRequest = (params: any,isRecoveryMode?: boolean, containsUpload?: boolean) => {
     params.idType = 'long';
+    if (containsUpload) {
+      params.json_fields = ["files"];
+    }
+    params.deleted = isRecoveryMode ? 1 : 0;
+
     params.titleOp = "ct";
     params.contentOp = "ct";
     params.remarkOp = "ct";
-    params.deleted = 0
+
     params.orderBy = "update_time";
     params.update_time_type = 'string[]';
     params.update_time_op = 'bt';
@@ -51,6 +56,8 @@ export default () => {
       columns={columns}
       beforePageRequest={beforePageRequest}
       beforeCreateRequest={beforeCreateRequest}
+      containsUpload={true}
+      uploadCategory={"images"}
     />
   );
 };
