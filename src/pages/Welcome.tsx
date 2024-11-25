@@ -144,7 +144,7 @@ const Welcome: React.FC = () => {
             />
             <InfoCard
               index={2}
-              title="了解 Tio Boot"
+              title="了解 Ant Design"
               href="https://ant.design"
               desc="antd 是基于 Tio Boot 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。"
             />

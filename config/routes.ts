@@ -18,10 +18,10 @@ export default [
     hideInMenu: false,
     routes: [
       {
-        path: '/website/redirect',
+        path: '/website/welcome',
         layout: false,
-        name: 'Redirect',
-        component: './website/redirect/redirectIndex',
+        name: 'welcome',
+        component: './Welcome',
       },
     ]
   },
@@ -173,7 +173,7 @@ export default [
 
   {
     path: '/',
-    redirect: '/website/redirect',
+    redirect: '/website/welcome',
   },
   {
     component: '404',
