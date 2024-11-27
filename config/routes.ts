@@ -12,16 +12,16 @@
  */
 export default [
   {
-    path: '/website',
-    name: 'Website',
+    path: '/telegram',
+    name: 'Telegram',
     icon: 'form',
     hideInMenu: false,
     routes: [
       {
-        path: '/website/welcome',
+        path: '/telegram/hutubot',
         layout: false,
-        name: 'welcome',
-        component: './Welcome',
+        name: 'Hutubot',
+        component: './website/hutubot/hutubotIndex',
       },
     ]
   },
@@ -173,7 +173,7 @@ export default [
 
   {
     path: '/',
-    redirect: '/website/welcome',
+    redirect: '/telegram/hutubot',
   },
   {
     component: '404',
