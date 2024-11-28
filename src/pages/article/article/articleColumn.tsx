@@ -35,6 +35,10 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
     dataIndex: 'category_id',
   },
   {
+    title: 'tags',
+    dataIndex: 'tags',
+  },
+  {
     title: 'views',
     dataIndex: 'views',
   },

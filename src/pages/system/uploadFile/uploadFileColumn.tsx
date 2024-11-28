@@ -1,4 +1,3 @@
-import React from 'react';
 import {ProColumns} from '@ant-design/pro-components';
 
 export const systemUploadFileListColumns = (): ProColumns<any>[] => [
@@ -7,12 +6,12 @@ export const systemUploadFileListColumns = (): ProColumns<any>[] => [
     dataIndex: 'md5',
   },
   {
-    title: 'filename',
-    dataIndex: 'filename',
+    title: 'name',
+    dataIndex: 'name',
   },
   {
-    title: 'file_size',
-    dataIndex: 'file_size',
+    title: 'size',
+    dataIndex: 'size',
   },
   {
     title: 'user_id',

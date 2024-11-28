@@ -1,49 +1,36 @@
-import React from 'react';
-import {
-  batchRemoveSystemUploadFile,
-  createSystemUploadFile,
-  exportAllSystemUploadFile,
-  pageSystemUploadFile,
-  removeSystemUploadFile
-} from './uploadFileService';
-import ProDataTable from "@/components/common/ProDataTable";
+import React from "react";
+import ApiTableLong from "@/components/common/ApiTableLong";
 import {systemUploadFileListColumns} from "@/pages/system/uploadFile/uploadFileColumn";
 
-const SystemUploadFileManagement: React.FC = () => {
-
+export default () => {
+  const from = "tio_boot_admin_system_upload_file";
 
   const beforePageRequest = (params: any) => {
-    params.idType = 'long';
-    params.md5Op = "ct";
-    params.filenameOp = "ct";
-    params.target_nameOp = "ct";
-    params.deleted = 0
-    //params.orderBy = "create_time";
+    params.idType = "long";
+    params.keyNameOp = "ct";
+    params.keyValueOp = "ct";
+    params.remarkOp = "ct";
+    params.deleted = 0;
     params.orderBy = "update_time";
+    params.isAsc = "false";
+    params.update_time_type = "string[]";
+    params.update_time_op = "bt";
     return params;
-  }
+  };
+
   const beforeCreateRequest = (formValues: any) => {
     return {
       ...formValues,
-      idType: 'long',
+      idType: "long",
     };
-  }
-
-
-  const columns = systemUploadFileListColumns();
+  };
 
   return (
-    <ProDataTable columns={columns} createRequest={createSystemUploadFile}
-                  deleteRequest={removeSystemUploadFile}
-                  batchRemoveRequest={batchRemoveSystemUploadFile}
-                  pageRequest={pageSystemUploadFile}
-                  exportRequest={exportAllSystemUploadFile}
-                  exportAllRequest={exportAllSystemUploadFile}
-                  beforePageRequest={beforePageRequest}
-                  beforeCreateRequest={beforeCreateRequest}>
-    </ProDataTable>
-
+    <ApiTableLong
+      from={from}
+      columns={systemUploadFileListColumns()}
+      beforePageRequest={beforePageRequest}
+      beforeCreateRequest={beforeCreateRequest}
+    />
   );
 };
-
-export default SystemUploadFileManagement;
