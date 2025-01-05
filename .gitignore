@@ -156,5 +156,4 @@ vcpkg_installed/
 .eslintcache
 .umi-production/
 .umi/
-appConfig.ts
 .deploy.toml
