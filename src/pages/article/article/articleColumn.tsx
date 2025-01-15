@@ -45,6 +45,13 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
   {
     title: 'visibility',
     dataIndex: 'visibility',
+    "valueType": "select",
+    fieldProps:{
+      options:[
+        { label: 'public', value: 'public' },
+        { label: 'private', value: 'private' },
+      ]
+    }
   },
   {
     title: "Files",

@@ -68,6 +68,11 @@ pnpm gh-pages
 fly apps create kimi-admin-react
 fly deploy
 ```
+## dev
+.env
+```env
+TIO_BOOT_ADMIN_BACKEND_URL=http://localhost:8100
+```
 ## More
 
 You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).

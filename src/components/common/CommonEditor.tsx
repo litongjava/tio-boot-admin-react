@@ -3,6 +3,10 @@ import React, {useEffect, useState} from 'react'
 import {Editor, Toolbar} from '@wangeditor/editor-for-react'
 import {IDomEditor, IEditorConfig, IToolbarConfig} from '@wangeditor/editor'
 import {customUploadForEditor} from "@/services/system/systemService";
+import { i18nChangeLanguage } from '@wangeditor/editor'
+
+// 切换语言 - 'en' 或者 'zh-CN'
+i18nChangeLanguage('en')
 
 type CommonEditorProps = {
   value?: string;
@@ -59,7 +63,7 @@ const CommonEditor: React.FC<CommonEditorProps> = ({value, onChange}) => {
           onCreated={setEditor}
           onChange={onChange}
           mode="default"
-          style={{height: '500px', overflowY: 'hidden'}}
+          style={{height: '600px', overflowY: 'hidden'}}
         />
       </div>
     </>

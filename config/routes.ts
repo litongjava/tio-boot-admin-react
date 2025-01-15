@@ -23,12 +23,6 @@ export default [
         name: 'Index',
         component: './Welcome',
       },
-      {
-        path: 'rumi_rmp_school',
-        layout: false,
-        name: 'rumi_rmp_school',
-        component: './app/rumi_rmp_school/rumi_rmp_school_index',
-      },
     ]
   },
   {
