@@ -110,6 +110,12 @@ export default [
         hideInMenu: false,
         component: './system/urls/systemUrlsIndex',
       },
+      {
+        path: '/system/access_log',
+        name: 'access_log',
+        hideInMenu: false,
+        component: './system/access_log/access_log_index',
+      },
     ]
   },
   {
