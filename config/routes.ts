@@ -57,15 +57,27 @@ export default [
     icon: 'FileWordOutlined',
     routes: [
       {
-        path: 'articleCategory',
-        name: 'Article Category',
-        component: './article/articleCategory/articleCategoryIndex',
-      },
-      {
         path: '/article/create/:id',
         name: 'Create Article',
         hideInMenu: false,
         component: './article/article/createArticle',
+      },
+      {
+        path: 'articleCategory',
+        name: 'Category',
+        component: './article/articleCategory/articleCategoryIndex',
+      },
+      {
+        path: '/article/author',
+        name: 'Author',
+        hideInMenu: false,
+        component: './article/author/authorIndex',
+      },
+      {
+        path: '/article/tag',
+        name: 'Tag',
+        hideInMenu: false,
+        component: './article/tag/tagIndex',
       },
       {
         path: '/article/article',
