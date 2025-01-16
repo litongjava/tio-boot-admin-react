@@ -5,7 +5,6 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
   {
     title: 'Title',
     dataIndex: 'title',
-    width: 200,
     ellipsis: true,
     formItemProps(form) {
       return {
@@ -19,8 +18,7 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
   },
   {
     title: 'Summary',
-    dataIndex: 'Summary',
-    width: 200,
+    dataIndex: 'summary',
     ellipsis: true,
   },
   {
