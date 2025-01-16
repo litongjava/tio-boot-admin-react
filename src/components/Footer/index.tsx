@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         {
           key: 'Tio Boot',
           title: 'Tio Boot',
-          href: 'https://litongjava.github.io/tio-boot-docs/',
+          href: 'https://tio-boot.com',
           blankTarget: true,
         },
       ]}
