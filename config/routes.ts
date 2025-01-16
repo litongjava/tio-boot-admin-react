@@ -116,6 +116,12 @@ export default [
         hideInMenu: false,
         component: './system/access_log/access_log_index',
       },
+      {
+        path: '/system/article_access_log',
+        name: 'article_access_log',
+        hideInMenu: false,
+        component: './system/article_access_log/access_log_index',
+      },
     ]
   },
   {

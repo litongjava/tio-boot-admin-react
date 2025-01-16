@@ -22,12 +22,10 @@ export const access_log_columns = (): ProColumns<any>[] => [
   {
     title: 'method',
     dataIndex: 'method',
-    copyable:true
   },
   {
     title: 'uri',
     dataIndex: 'uri',
-    ellipsis:true,
     copyable:true
   },
   {
@@ -51,8 +49,6 @@ export const access_log_columns = (): ProColumns<any>[] => [
   {
     title: 'Remark',
     dataIndex: 'remark',
-    ellipsis:true,
-    copyable:true
   },
   {
     title: 'update_time',
@@ -60,7 +56,6 @@ export const access_log_columns = (): ProColumns<any>[] => [
     valueType: 'dateTime',
     hideInSearch: true,
     hideInForm: true,
-    ellipsis:true,
   },
   {
     key: 'update_time',
