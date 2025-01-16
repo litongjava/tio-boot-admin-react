@@ -53,8 +53,6 @@ const ApiTableLong: React.FC<JtsDataTableLongProps> = ({
           url: file.url || file.response?.data.url
         }
       });
-      params.json_fields = ["files"];
-      params.json_fields_type = 'string[]';
     }
     if (beforeCreateRequest) {
       return beforeCreateRequest(params, containsUpload)
