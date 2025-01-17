@@ -5,7 +5,7 @@ export const systemArticleListColumns = (): ProColumns<any>[] => [
   {
     title: 'Title',
     dataIndex: 'title',
-    ellipsis: true,
+    copyable: true,
     formItemProps(form) {
       return {
         rules: [
