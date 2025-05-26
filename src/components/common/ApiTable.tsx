@@ -22,7 +22,7 @@ interface JtsDataTableLongProps {
   uploadCategory?: string;
 }
 
-const ApiTableLong: React.FC<JtsDataTableLongProps> = ({
+const ApiTable: React.FC<JtsDataTableLongProps> = ({
                                                          from,
                                                          params,
                                                          columns,
@@ -39,8 +39,6 @@ const ApiTableLong: React.FC<JtsDataTableLongProps> = ({
   }
 
   const dataTableBeforeCreateRequest = (params: any) => {
-    params.id_type = "long";
-
     if (containsUpload) {
       params.files = fileList.map((file: any) => {
         return {
@@ -126,4 +124,4 @@ const ApiTableLong: React.FC<JtsDataTableLongProps> = ({
   );
 };
 
-export default ApiTableLong;
+export default ApiTable;

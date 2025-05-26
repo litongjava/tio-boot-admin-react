@@ -1,4 +1,4 @@
-import ApiTableLong from '@/components/common/ApiTableLong';
+import ApiTable from '@/components/common/ApiTable';
 import { rumi_rmp_school_columns } from '@/pages/app/rumi_rmp_school/rumi_rmp_school_column';
 
 export default () => {
@@ -30,7 +30,7 @@ export default () => {
     };
   };
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={rumi_rmp_school_columns()}
       beforePageRequest={beforePageRequest}

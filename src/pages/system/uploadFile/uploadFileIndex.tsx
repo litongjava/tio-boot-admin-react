@@ -1,5 +1,5 @@
 import React from "react";
-import ApiTableLong from "@/components/common/ApiTableLong";
+import ApiTable from "@/components/common/ApiTable";
 import {systemUploadFileListColumns} from "@/pages/system/uploadFile/uploadFileColumn";
 
 export default () => {
@@ -26,7 +26,7 @@ export default () => {
   };
 
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={systemUploadFileListColumns()}
       beforePageRequest={beforePageRequest}

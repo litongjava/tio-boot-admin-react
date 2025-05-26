@@ -1,4 +1,4 @@
-import ApiTableLong from '@/components/common/ApiTableLong';
+import ApiTable from '@/components/common/ApiTable';
 import { systemArticleListColumns } from '@/pages/article/article/articleColumn';
 import { listArticleCategory } from '@/pages/article/articleCategory/articleCategoryService';
 import { listArticleAuthor } from '@/pages/article/author/authorService';
@@ -137,7 +137,7 @@ export default () => {
   ];
 
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={columns}
       beforePageRequest={beforePageRequest}

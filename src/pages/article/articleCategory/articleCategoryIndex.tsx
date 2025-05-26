@@ -3,14 +3,14 @@ import {
   articleCategoryBeforePageRequest,
   articleCategoryCreatePageRequest
 } from "@/pages/article/articleCategory/articleCategoryService";
-import ApiTableLong from "@/components/common/ApiTableLong";
+import ApiTable from "@/components/common/ApiTable";
 import {articleCategoryColumns} from "@/pages/article/articleCategory/articleCategoryColumn";
 
 
 export default () => {
   const from = "tio_boot_admin_article_category";
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={articleCategoryColumns()}
       beforePageRequest={articleCategoryBeforePageRequest}

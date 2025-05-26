@@ -1,12 +1,12 @@
 import React from "react";
-import ApiTableLong from "@/components/common/ApiTableLong";
+import ApiTable from "@/components/common/ApiTable";
 import {tio_boot_admin_file_images_columns} from "@/pages/file/images/imagesColumn";
 import {beforeImageCreateRequest, beforeImagePageRequest} from "@/pages/file/images/imagesService";
 
 export default () => {
   const from = "tio_boot_admin_file_images";
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={tio_boot_admin_file_images_columns()}
       beforePageRequest={beforeImagePageRequest}

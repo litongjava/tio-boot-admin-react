@@ -1,5 +1,5 @@
 import React from 'react';
-import ApiTableLong from "@/components/common/ApiTableLong";
+import ApiTable from "@/components/common/ApiTable";
 import {tio_boot_admin_system_constants_config_columns} from "@/pages/system/constants/systemConstatnsColumn";
 
 export default () => {
@@ -26,7 +26,7 @@ export default () => {
 
 
   return (
-    <ApiTableLong
+    <ApiTable
       from={from}
       columns={tio_boot_admin_system_constants_config_columns()}
       beforePageRequest={beforePageRequest}
