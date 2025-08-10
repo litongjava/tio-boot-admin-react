@@ -15,7 +15,7 @@ export const addListColumns = (
     copyable: true,
     ellipsis: true,
     width: 70,
-    fixed: 'left',
+    // fixed: 'left',
     render: (dom, entity) => {
       return (
         <a
@@ -31,7 +31,7 @@ export const addListColumns = (
     title: 'Operation',
     valueType: 'option',
     width: 150,
-    fixed: 'right',
+    // fixed: 'right',
     render: (text, record) => [
       <a key="edit" onClick={() => handleShowEditModal(record)}>Edit</a>,
       <a key="delete" onClick={() => handleRemove(record.id)}>
