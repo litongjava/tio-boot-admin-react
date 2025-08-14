@@ -81,7 +81,11 @@ export const addListColumns = (
             </Tooltip>,
           );
         }
-        return <div style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{buttons}</div>;
+        return (
+          <div style={{ whiteSpace: 'normal', wordBreak: 'break-word', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {buttons}
+          </div>
+        );
       },
     },
   ];
