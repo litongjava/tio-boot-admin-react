@@ -3,7 +3,7 @@ export default {
     'Tio Boot Admin is the most influential web design specification',
   'pages.login.accountLogin.tab': 'Account Login',
   'pages.login.accountLogin.errorMessage': 'Incorrect username/password',
-  'pages.login.failure': 'Login failed, Incorrect username/password!',  
+  'pages.login.failure': 'Login failed, Incorrect username/password!',
   'pages.login.success': 'Login successful!',
   'pages.login.username.placeholder': 'Username',
   'pages.login.username.required': 'Please input your username!',

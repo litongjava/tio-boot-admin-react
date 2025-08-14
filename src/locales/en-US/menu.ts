@@ -73,6 +73,12 @@ export default {
   'menu.system.Constants': 'Constants',
   'menu.system.Upload File': 'Upload File',
   'menu.system.url': 'Url',
+  'menu.article.Category': 'Category',
+  'menu.article.Tag':"Tag",
+  'menu.article.Author':'Author',
+  'menu.system.article_access_log':'Access Log',
+  'menu.system.access_log':'Access Log',
+
 
 
 };
