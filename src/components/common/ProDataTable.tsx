@@ -294,7 +294,7 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
       <TooltipButton
         icon={<FileExcelOutlined />}
         type="text"
-        onClick={handleModeChange}
+        onClick={handleExport}
         tooltipTitle="Export Current Page"
       />
     );
@@ -304,7 +304,7 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
       <TooltipButton
         icon={<FileExcelOutlined />}
         type="text"
-        onClick={handleModeChange}
+        onClick={handleExportAll}
         tooltipTitle="Export All"
       />
     );
