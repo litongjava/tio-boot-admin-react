@@ -171,6 +171,7 @@ let config = {
   },
   esbuildMinifyIIFE: true,
   requestRecord: {},
+  mako: {},
 }
 // @ts-ignore
 export default defineConfig(config);
