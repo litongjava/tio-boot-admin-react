@@ -1,42 +1,52 @@
-import React, {useState} from 'react';
-import ProDataTable from "@/components/common/ProDataTable";
-import {UploadFile, UploadProps} from "antd/lib/upload/interface";
-import {customUpload} from "@/services/system/systemService";
-import UploadFileItem from "@/components/common/UploadFileItem";
+import ProDataTable from '@/components/common/ProDataTable';
+import UploadFileItem from '@/components/common/UploadFileItem';
+import { customUpload } from '@/services/system/systemService';
 import {
-  createRequest, deleteRequestOfLong,
+  createRequest,
+  deleteRequestOfLong,
   exportAllRequest,
   exportRequest,
-  pageRequest, softBatchRecoveryRequestOfLong, softBatchRemoveRequestOfLong, softRecoveryRequestOfLong,
-  softRemoveRequestOfLong
-} from "@/utils/apiTable";
+  pageRequest,
+  softBatchRecoveryRequestOfLong,
+  softBatchRemoveRequestOfLong,
+  softRecoveryRequestOfLong,
+  softRemoveRequestOfLong,
+} from '@/utils/apiTable';
+import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
+import React, { useState } from 'react';
 
 interface JtsDataTableLongProps {
   from: string;
-  params?: any
+  params?: any;
   columns: any;
   beforeCreateRequest?: (params: any, containsUpload?: boolean) => any;
   beforePageRequest: (params: any, isRecoveryMode?: boolean, containsUpload?: boolean) => any;
   containsUpload?: boolean;
-  maxFiles?: number,
+  maxFiles?: number;
   uploadCategory?: string;
+  editable?: boolean;
+  removable?: boolean;
+  viewable?: boolean;
 }
 
 const ApiTable: React.FC<JtsDataTableLongProps> = ({
-                                                         from,
-                                                         params,
-                                                         columns,
-                                                         beforeCreateRequest,
-                                                         beforePageRequest,
-                                                         containsUpload,
-                                                         maxFiles,
-                                                         uploadCategory,
-                                                       }) => {
+  from,
+  params,
+  columns,
+  beforeCreateRequest,
+  beforePageRequest,
+  containsUpload,
+  maxFiles,
+  uploadCategory,
+                                                     editable,
+                                                     removable,
+                                                     viewable,
+}) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleChange: UploadProps['onChange'] = ({fileList: newFileList}) => {
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-  }
+  };
 
   const dataTableBeforeCreateRequest = (params: any) => {
     if (containsUpload) {
@@ -48,20 +58,20 @@ const ApiTable: React.FC<JtsDataTableLongProps> = ({
           size: file.size,
           type: file.type,
           id: file.id || file.response?.data.id,
-          url: file.url || file.response?.data.url
-        }
+          url: file.url || file.response?.data.url,
+        };
       });
     }
     if (beforeCreateRequest) {
-      return beforeCreateRequest(params, containsUpload)
+      return beforeCreateRequest(params, containsUpload);
     } else {
       return params;
     }
-  }
+  };
 
   const afterCreateRequest = () => {
-    setFileList([])
-  }
+    setFileList([]);
+  };
 
   const onFormVisibleChange = (visible: boolean, currentRow: any) => {
     if (visible) {
@@ -71,37 +81,50 @@ const ApiTable: React.FC<JtsDataTableLongProps> = ({
         setFileList([]);
       }
     }
-  }
+  };
 
   const customUploadRequest = (options: any) => {
     if (uploadCategory) {
       return customUpload(uploadCategory, options);
     } else {
-      return customUpload("default", options);
+      return customUpload('default', options);
     }
   };
 
   const dataTableBeforePageRequest = (params: any, recoveryMode?: boolean) => {
-    return beforePageRequest(params, recoveryMode, containsUpload)
-  }
+    return beforePageRequest(params, recoveryMode, containsUpload);
+  };
   return (
-    <ProDataTable from={from} params={params} columns={columns}
-                  createRequest={createRequest}
-                  pageRequest={pageRequest}
-                  exportRequest={exportRequest}
-                  exportAllRequest={exportAllRequest}
-                  removeRequest={softRemoveRequestOfLong}
-                  deleteRequest={deleteRequestOfLong}
-                  recoveryRequest={softRecoveryRequestOfLong}
-                  batchRemoveRequest={softBatchRemoveRequestOfLong}
-                  batchRecoveryRequest={softBatchRecoveryRequestOfLong}
-                  beforePageRequest={dataTableBeforePageRequest}
-                  beforeCreateRequest={dataTableBeforeCreateRequest}
-                  afterCreateRequest={afterCreateRequest}
-                  onFormVisibleChange={onFormVisibleChange}>
+    <ProDataTable
+      from={from}
+      params={params}
+      columns={columns}
+      createRequest={createRequest}
+      pageRequest={pageRequest}
+      exportRequest={exportRequest}
+      exportAllRequest={exportAllRequest}
+      removeRequest={softRemoveRequestOfLong}
+      deleteRequest={deleteRequestOfLong}
+      recoveryRequest={softRecoveryRequestOfLong}
+      batchRemoveRequest={softBatchRemoveRequestOfLong}
+      batchRecoveryRequest={softBatchRecoveryRequestOfLong}
+      beforePageRequest={dataTableBeforePageRequest}
+      beforeCreateRequest={dataTableBeforeCreateRequest}
+      afterCreateRequest={afterCreateRequest}
+      onFormVisibleChange={onFormVisibleChange}
+      editable={editable}
+      removable={removable}
+      viewable={viewable}
+    >
       {containsUpload && (
-        <UploadFileItem label="Files" max={maxFiles} name="urls" fileList={fileList} onChange={handleChange}
-                        customRequest={customUploadRequest}/>
+        <UploadFileItem
+          label="Files"
+          max={maxFiles}
+          name="urls"
+          fileList={fileList}
+          onChange={handleChange}
+          customRequest={customUploadRequest}
+        />
       )}
 
       {containsUpload && (

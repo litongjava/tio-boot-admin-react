@@ -27,6 +27,9 @@ type ProDataTableProps = {
   afterCreateRequest?: () => any;
   onFormVisibleChange?: (visible: boolean, currentRow: any) => void;
   children?: React.ReactNode;
+  editable?: boolean;
+  removable?: boolean;
+  viewable?: boolean;
 };
 
 const ProDataTable: React.FC<ProDataTableProps> = ({
@@ -47,6 +50,9 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
   afterCreateRequest,
   onFormVisibleChange,
   children,
+  editable = true,
+  removable = true,
+  viewable = true,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const actionRef = useRef<ActionType>();
@@ -241,12 +247,15 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
 
   const newColumns = addListColumns(
     columns,
+    from,
     handleShowDetailDraw,
     handleRemove,
     handleDelete,
     handleShowEditModal,
     recoveryMode,
-    from,
+    editable,
+    removable,
+    viewable,
   );
 
   let request = async (params: any) => {
