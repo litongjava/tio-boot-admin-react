@@ -141,7 +141,7 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
             return (
               <Col key={k} span={span}>
                 <Space align="start" size={8} style={{ width: '100%' }}>
-                  <Text type="secondary">{labelNode}：</Text>
+                  <Text>{labelNode}：</Text>
                   <Tooltip title={String(isEmpty(v) ? '-' : v)}>
                     <Text
                       style={{ wordBreak: 'break-word', flex: 1 }}
