@@ -1,3 +1,4 @@
+import TooltipButton from '@/components/common/TooltipButton';
 import { ArrowsAltOutlined, BorderOutlined, VerticalLeftOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -10,7 +11,6 @@ import {
 import { Button, Drawer } from 'antd';
 import { SortOrder } from 'antd/lib/table/interface';
 import React, { useState } from 'react';
-import TooltipButton from '@/components/common/TooltipButton';
 
 type DataTableProp = {
   columns?: ProColumns<any, any>[];
@@ -126,7 +126,13 @@ const DataTable: React.FC<DataTableProp> = ({
           labelWidth: 'auto',
           defaultCollapsed: true,
         }}
-        pagination={{ showSizeChanger: true }}
+        pagination={{
+          defaultPageSize: 15,
+          showSizeChanger: true,
+          pageSizeOptions: [
+            5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 96, 100,
+          ],
+        }}
         toolBarRender={() => [
           ...toolBarRender(),
           showGhostButton,
@@ -160,8 +166,8 @@ const DataTable: React.FC<DataTableProp> = ({
           setCurrentRow(undefined);
           setShowDetail(false);
         }}
-        destroyOnHide={true}
-        title="详情"
+        destroyOnClose={true}
+        title="Details"
       >
         {currentRow?.id && (
           <ProDescriptions<any>

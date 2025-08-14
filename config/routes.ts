@@ -174,6 +174,13 @@ export default [
     ],
   },
   {
+    path: '/details/:from/:id',
+    hideInMenu: true,
+    layout: false,
+    name: 'Details',
+    component: './details/details',
+  },
+  {
     path: '/article/:id',
     hideInMenu: true,
     layout: false,

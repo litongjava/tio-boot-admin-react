@@ -2,7 +2,7 @@ import DataForm from '@/components/common/DataForm';
 import DataTable from '@/components/common/DataTable';
 import { addListColumns } from '@/components/common/proDataColumn';
 import TooltipButton from '@/components/common/TooltipButton';
-import { DeleteOutlined, ExportOutlined, PlusOutlined,FileExcelOutlined } from '@ant-design/icons';
+import { DeleteOutlined, FileExcelOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType } from '@ant-design/pro-components';
 import { BetaSchemaForm, ProFormText } from '@ant-design/pro-components';
 import { Button, message, Modal } from 'antd';
@@ -90,7 +90,7 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
     actionRef.current?.reload();
   };
 
-  const handleShowDetail = (entity: any) => {
+  const handleShowDetailDraw = (entity: any) => {
     setCurrentRow(entity);
     setShowDetail(true);
   };
@@ -241,11 +241,12 @@ const ProDataTable: React.FC<ProDataTableProps> = ({
 
   const newColumns = addListColumns(
     columns,
-    handleShowDetail,
+    handleShowDetailDraw,
     handleRemove,
     handleDelete,
     handleShowEditModal,
     recoveryMode,
+    from,
   );
 
   let request = async (params: any) => {
