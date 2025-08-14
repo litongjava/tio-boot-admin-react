@@ -1,7 +1,7 @@
-import { Card, Col, Collapse, Row, Skeleton, Space, Tooltip, Typography } from 'antd';
 import React from 'react';
+import { Card, Col, Collapse, Row, Skeleton, Space, Typography, Image } from 'antd';
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 const { Panel } = Collapse;
 
 export type AutoDetailRender = (
@@ -11,53 +11,55 @@ export type AutoDetailRender = (
 ) => React.ReactNode;
 
 export type AutoDetailProps = {
-  /** 详情数据 */
   data?: Record<string, any> | null;
-  /** 加载态 */
   loading?: boolean;
-  /** 每行列数（默认 2） */
-  columns?: number;
-  /** 是否隐藏空值（null/undefined/''） */
+  columns?: number;                 // 每行列数（默认 2）
   hideEmpty?: boolean;
-  /** 字段显示顺序（可选），不在其中的字段按字母序排在后面 */
   order?: string[];
-  /** 隐藏字段 */
   hiddenKeys?: string[];
-  /** 字段标题映射（可选） */
   titleMap?: Record<string, React.ReactNode>;
-  /** 自定义渲染器 */
   renderers?: Record<string, AutoDetailRender>;
-  /** 全局兜底渲染器（可选） */
   defaultRenderer?: AutoDetailRender;
-  /** 文本是否可复制（默认 true） */
   copyable?: boolean | ((key: string, val: any) => boolean);
-  /** 卡片标题（可选） */
   title?: React.ReactNode;
-  /** 自定义外层样式 */
   style?: React.CSSProperties;
+  /** 触发“整行独占”的长度阈值（默认 80） */
+  longTextThreshold?: number;
 };
 
-const prettify = (key: string) => key.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+const prettify = (key: string) =>
+  key.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
 
 const isEmpty = (v: any) =>
   v === null || v === undefined || (typeof v === 'string' && v.trim() === '');
 
 const looksLikeDateTime = (v: any) =>
-  typeof v === 'string' && /\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?)?/.test(v);
+  typeof v === 'string' &&
+  /\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?)?/.test(v);
 
 const looksLikeNumber = (v: any) =>
   (typeof v === 'number' && Number.isFinite(v)) ||
   (typeof v === 'string' && v.trim() !== '' && !Number.isNaN(Number(v)));
 
+const isURL = (v: any) =>
+  typeof v === 'string' &&
+  /^https?:\/\/[\w\-]+(\.[\w\-]+)+([/?#].*)?$/i.test(v);
+
+const isImageURL = (v: string) =>
+  /^data:image\//i.test(v) ||
+  /\.(png|jpe?g|gif|webp|svg|bmp|ico)(\?.*)?$/i.test(v) ||
+  /\/image\/|\/images\/|imgcdn|cloudfront|clerk\.com\/.*\/image/i.test(v);
+
 const formatDateTime = (v: string) => {
-  // 尽量宽松的解析
   const d = new Date(v.replace(' ', 'T'));
   return Number.isFinite(d.getTime()) ? d.toLocaleString() : v;
 };
 
+/** 默认渲染器：安全显示 + URL/图片智能渲染 + JSON 折叠 */
 const defaultRender: AutoDetailRender = (val) => {
   if (isEmpty(val)) return <Text type="secondary">-</Text>;
   if (typeof val === 'boolean') return <Text>{val ? 'Yes' : 'No'}</Text>;
+
   if (Array.isArray(val)) {
     return (
       <Collapse ghost>
@@ -67,6 +69,7 @@ const defaultRender: AutoDetailRender = (val) => {
       </Collapse>
     );
   }
+
   if (typeof val === 'object') {
     return (
       <Collapse ghost>
@@ -76,36 +79,58 @@ const defaultRender: AutoDetailRender = (val) => {
       </Collapse>
     );
   }
+
   if (looksLikeDateTime(val)) return <Text>{formatDateTime(val)}</Text>;
+
+  if (typeof val === 'string' && isURL(val)) {
+    if (isImageURL(val)) {
+      return (
+        <>
+          <Image src={val} width={220} style={{ maxHeight: 220, objectFit: 'contain' }} placeholder />
+          <div style={{ marginTop: 6 }}>
+            <a href={val} target="_blank" rel="noreferrer">{val}</a>
+          </div>
+        </>
+      );
+    }
+    return <a href={val} target="_blank" rel="noreferrer">{val}</a>;
+  }
+
   if (looksLikeNumber(val)) {
     const n = Number(val);
     return Number.isFinite(n) ? <Text>{n.toLocaleString()}</Text> : <Text>{String(val)}</Text>;
   }
-  return <Text>{String(val)}</Text>;
+
+  // 长文本友好展示：保留换行、软换行
+  return (
+    <Paragraph style={{ marginBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+      {String(val)}
+    </Paragraph>
+  );
 };
 
 const AutoDetail: React.FC<AutoDetailProps> = ({
-  data,
-  loading,
-  columns = 2,
-  hideEmpty = false,
-  order,
-  hiddenKeys = [],
-  titleMap,
-  renderers,
-  defaultRenderer,
-  copyable = true,
-  title,
-  style,
-}) => {
+                                                 data,
+                                                 loading,
+                                                 columns = 2,
+                                                 hideEmpty = false,
+                                                 order,
+                                                 hiddenKeys = [],
+                                                 titleMap,
+                                                 renderers,
+                                                 defaultRenderer,
+                                                 copyable = true,
+                                                 title,
+                                                 style,
+                                                 longTextThreshold = 80,
+                                               }) => {
   const record = data ?? {};
 
-  // 组装 key 列表：order 优先，其余按字母序
+  // key 顺序：order 优先，其余字母序
   const keys = React.useMemo(() => {
     const all = Object.keys(record || {});
     const hidden = new Set(hiddenKeys);
     const remain = all.filter((k) => !hidden.has(k));
-
     if (order && order.length) {
       const orderSet = new Set(order);
       const inOrder = order.filter((k) => remain.includes(k));
@@ -115,13 +140,26 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
     return remain.sort();
   }, [record, order, hiddenKeys]);
 
-  const span = Math.max(1, Math.min(24, Math.floor(24 / Math.max(1, columns))));
+  const baseSpan = Math.max(1, Math.min(24, Math.floor(24 / Math.max(1, columns))));
 
-  const shouldCopy = (k: string, v: any) => {
-    if (typeof copyable === 'function') return copyable(k, v);
+  /** 判断该字段是否应“整行独占” */
+  const isLongBlock = (k: string, v: any) => {
+    if (Array.isArray(v) || (typeof v === 'object' && v !== null)) return true;
+    if (typeof v === 'string') {
+      if (v.includes('\n')) return true;
+      if (isURL(v) && !isImageURL(v) && v.length > longTextThreshold) return true;
+      if (v.length > longTextThreshold) return true;
+    }
+    return false;
+  };
+
+  /** 是否显示复制按钮：仅当“会换行/长文本/多行/对象数组”等时显示 */
+  const shouldShowCopyIcon = (k: string, v: any) => {
+    if (typeof copyable === 'function' && !copyable(k, v)) return false;
     if (copyable === false) return false;
-    // 默认：字符串或可转字符串的基础类型允许复制
-    return typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean';
+    if (isEmpty(v)) return false;
+    // 仅长文本/多行/复杂结构时显示
+    return isLongBlock(k, v);
   };
 
   return (
@@ -137,20 +175,40 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
             const labelNode = titleMap?.[k] ?? prettify(k);
             const renderer = renderers?.[k] ?? defaultRenderer ?? defaultRender;
             const node = renderer(v, record, k);
+            const span = isLongBlock(k, v) ? 24 : baseSpan;
 
             return (
               <Col key={k} span={span}>
-                <Space align="start" size={8} style={{ width: '100%' }}>
-                  <Text>{labelNode}：</Text>
-                  <Tooltip title={String(isEmpty(v) ? '-' : v)}>
-                    <Text
-                      style={{ wordBreak: 'break-word', flex: 1 }}
-                      copyable={shouldCopy(k, v) ? { text: String(v) } : undefined}
-                    >
-                      {node}
-                    </Text>
-                  </Tooltip>
-                </Space>
+                {/* 每个字段块加边框 */}
+                <div
+                  style={{
+                    border: '1px solid #f0f0f0',
+                    borderRadius: 8,
+                    padding: 8,
+                    background: '#fff',
+                  }}
+                >
+                  <Space align="start" size={8} style={{ width: '100%' }}>
+                    <Text>{labelNode}：</Text>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      {/* 值内容：不再使用 Tooltip 包裹 */}
+                      <div style={{ marginTop: 0 }}>{node}</div>
+
+                      {/* 仅在“会换行/长文本”等情况显示复制按钮；保留复制 Tooltip */}
+                      {shouldShowCopyIcon(k, v) && (
+                        <Text
+                          style={{ marginTop: 4, display: 'inline-block' }}
+                          copyable={{
+                            text: String(v),
+                            tooltips: ['Copy', 'Copied'],
+                          }}
+                        >
+                          {'\u200b' /* 占位，确保只显示复制图标 */}
+                        </Text>
+                      )}
+                    </div>
+                  </Space>
+                </div>
               </Col>
             );
           })}
