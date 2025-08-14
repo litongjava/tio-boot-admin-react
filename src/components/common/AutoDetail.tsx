@@ -369,7 +369,7 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
                   }}
                 >
                   <Space align="start" size={8} style={{ width: '100%' }}>
-                    <Text type="secondary">{labelNode}：</Text>
+                    <Text>{labelNode}：</Text>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       {/* 值内容：无外层 Tooltip */}
                       <div style={{ marginTop: 0 }}>{node}</div>
