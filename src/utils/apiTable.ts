@@ -25,7 +25,7 @@ export async function exportRequest(data: any, tableName?: string) {
   });
 
   let currentDateString = new Date().toLocaleString();
-  let filename = `${tableName}-current-${currentDateString}.xlsx`;
+  let filename = `${tableName}-current-page-${currentDateString}.xlsx`;
   download(response, filename);
 }
 
