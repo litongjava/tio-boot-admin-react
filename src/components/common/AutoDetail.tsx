@@ -1,47 +1,10 @@
-import React from 'react';
-import {
-  Card,
-  Col,
-  Collapse,
-  Row,
-  Skeleton,
-  Space,
-  Typography,
-  Image,
-  Button,
-} from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Collapse, Image, Row, Skeleton, Space, Typography } from 'antd';
+import React from 'react';
+import {LongTextBlock} from "@/components/common/LongTextBlock";
 
-const { Text, Paragraph } = Typography;
+const { Text } = Typography;
 const { Panel } = Collapse;
-
-/** 可折叠长文本渲染 */
-const LongTextBlock: React.FC<{
-  text: string;
-  threshold: number;
-}> = ({ text, threshold }) => {
-  const [open, setOpen] = React.useState(false);
-  const isLong = text.length > threshold || text.includes('\n');
-
-  if (!isLong) {
-    return (
-      <Paragraph style={{ marginBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-        {text}
-      </Paragraph>
-    );
-  }
-
-  const preview = text.slice(0, threshold);
-
-  return (
-    <div>
-      <Paragraph style={{ marginBottom: 6, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-        {open ? text : preview + '…'}
-      </Paragraph>
-      <a onClick={() => setOpen(!open)}>{open ? 'Collapse' : 'Show more'}</a>
-    </div>
-  );
-};
 
 export type AutoDetailRender = (
   value: any,
@@ -52,7 +15,7 @@ export type AutoDetailRender = (
 export type AutoDetailProps = {
   data?: Record<string, any> | null;
   loading?: boolean;
-  columns?: number;                 // 每行列数（默认 2）
+  columns?: number; // 每行列数（默认 2）
   hideEmpty?: boolean;
   order?: string[];
   hiddenKeys?: string[];
@@ -67,28 +30,25 @@ export type AutoDetailProps = {
   longTextThreshold?: number;
 
   /** 打印功能 */
-  printable?: boolean;              // 默认 true
-  printTitle?: string;              // 打印页标题
-  printButtonText?: string;         // 打印按钮文案，默认 "Print"
+  printable?: boolean; // 默认 true
+  printTitle?: string; // 打印页标题
+  printButtonText?: string; // 打印按钮文案，默认 "Print"
 };
 
-const prettify = (key: string) =>
-  key.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+const prettify = (key: string) => key.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
 
 const isEmpty = (v: any) =>
   v === null || v === undefined || (typeof v === 'string' && v.trim() === '');
 
 const looksLikeDateTime = (v: any) =>
-  typeof v === 'string' &&
-  /\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?)?/.test(v);
+  typeof v === 'string' && /\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?)?/.test(v);
 
 const looksLikeNumber = (v: any) =>
   (typeof v === 'number' && Number.isFinite(v)) ||
   (typeof v === 'string' && v.trim() !== '' && !Number.isNaN(Number(v)));
 
 const isURL = (v: any) =>
-  typeof v === 'string' &&
-  /^https?:\/\/[\w\-]+(\.[\w\-]+)+([/?#].*)?$/i.test(v);
+  typeof v === 'string' && /^https?:\/\/[\w\-]+(\.[\w\-]+)+([/?#].*)?$/i.test(v);
 
 const isImageURL = (v: string) =>
   /^data:image\//i.test(v) ||
@@ -103,81 +63,81 @@ const formatDateTime = (v: string) => {
 /** 默认渲染器：安全显示 + URL/图片智能渲染 + JSON 折叠 + 长文本折叠 */
 const makeDefaultRender =
   (threshold: number): AutoDetailRender =>
-    (val) => {
-      if (isEmpty(val)) return <Text type="secondary">-</Text>;
-      if (typeof val === 'boolean') return <Text>{val ? 'Yes' : 'No'}</Text>;
+  (val) => {
+    if (isEmpty(val)) return <Text type="secondary">-</Text>;
+    if (typeof val === 'boolean') return <Text>{val ? 'Yes' : 'No'}</Text>;
 
-      if (Array.isArray(val)) {
+    if (Array.isArray(val)) {
+      return (
+        <Collapse ghost>
+          <Panel header={<Text>Array[{val.length}]</Text>} key="arr">
+            <pre style={{ margin: 0 }}>{JSON.stringify(val, null, 2)}</pre>
+          </Panel>
+        </Collapse>
+      );
+    }
+
+    if (typeof val === 'object') {
+      return (
+        <Collapse ghost>
+          <Panel header={<Text>Object</Text>} key="obj">
+            <pre style={{ margin: 0 }}>{JSON.stringify(val, null, 2)}</pre>
+          </Panel>
+        </Collapse>
+      );
+    }
+
+    if (looksLikeDateTime(val)) return <Text>{formatDateTime(val)}</Text>;
+
+    if (typeof val === 'string' && isURL(val)) {
+      if (isImageURL(val)) {
         return (
-          <Collapse ghost>
-            <Panel header={<Text>Array[{val.length}]</Text>} key="arr">
-              <pre style={{ margin: 0 }}>{JSON.stringify(val, null, 2)}</pre>
-            </Panel>
-          </Collapse>
+          <>
+            <Image
+              src={val}
+              width={220}
+              style={{ maxHeight: 260, objectFit: 'contain' }}
+              placeholder
+            />
+            <div style={{ marginTop: 6 }}>
+              <a href={val} target="_blank" rel="noreferrer">
+                {val}
+              </a>
+            </div>
+          </>
         );
       }
+      // 很长的 URL 也可以折叠（交给 LongTextBlock）
+      return <LongTextBlock text={val} threshold={threshold} />;
+    }
 
-      if (typeof val === 'object') {
-        return (
-          <Collapse ghost>
-            <Panel header={<Text>Object</Text>} key="obj">
-              <pre style={{ margin: 0 }}>{JSON.stringify(val, null, 2)}</pre>
-            </Panel>
-          </Collapse>
-        );
-      }
+    if (looksLikeNumber(val)) {
+      const n = Number(val);
+      return Number.isFinite(n) ? <Text>{n.toLocaleString()}</Text> : <Text>{String(val)}</Text>;
+    }
 
-      if (looksLikeDateTime(val)) return <Text>{formatDateTime(val)}</Text>;
-
-      if (typeof val === 'string' && isURL(val)) {
-        if (isImageURL(val)) {
-          return (
-            <>
-              <Image
-                src={val}
-                width={220}
-                style={{ maxHeight: 260, objectFit: 'contain' }}
-                placeholder
-              />
-              <div style={{ marginTop: 6 }}>
-                <a href={val} target="_blank" rel="noreferrer">
-                  {val}
-                </a>
-              </div>
-            </>
-          );
-        }
-        // 很长的 URL 也可以折叠（交给 LongTextBlock）
-        return <LongTextBlock text={val} threshold={threshold} />;
-      }
-
-      if (looksLikeNumber(val)) {
-        const n = Number(val);
-        return Number.isFinite(n) ? <Text>{n.toLocaleString()}</Text> : <Text>{String(val)}</Text>;
-      }
-
-      // 普通文本：可折叠
-      return <LongTextBlock text={String(val)} threshold={threshold} />;
-    };
+    // 普通文本：可折叠
+    return <LongTextBlock text={String(val)} threshold={threshold} />;
+  };
 
 const AutoDetail: React.FC<AutoDetailProps> = ({
-                                                 data,
-                                                 loading,
-                                                 columns = 2,
-                                                 hideEmpty = false,
-                                                 order,
-                                                 hiddenKeys = [],
-                                                 titleMap,
-                                                 renderers,
-                                                 defaultRenderer,
-                                                 copyable = true,
-                                                 title,
-                                                 style,
-                                                 longTextThreshold = 80,
-                                                 printable = true,
-                                                 printTitle,
-                                                 printButtonText = 'Print',
-                                               }) => {
+  data,
+  loading,
+  columns = 2,
+  hideEmpty = false,
+  order,
+  hiddenKeys = [],
+  titleMap,
+  renderers,
+  defaultRenderer,
+  copyable = true,
+  title,
+  style,
+  longTextThreshold = 80,
+  printable = true,
+  printTitle,
+  printButtonText = 'Print',
+}) => {
   const record = data ?? {};
 
   // key 顺序：order 优先，其余字母序
@@ -219,10 +179,7 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
   const buildPrintHTML = React.useCallback(
     (dataObj: Record<string, any>) => {
       const escapeHTML = (s: any) =>
-        String(s)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
+        String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
       const rows = keys
         .filter((k) => !(hideEmpty && isEmpty((dataObj as any)[k])))
@@ -242,11 +199,11 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
             if (isImageURL(raw)) {
               val = `<div style="display:flex;flex-direction:column;gap:6px">
                        <img src="${escapeHTML(
-                raw,
-              )}" style="max-width:260px;max-height:260px;object-fit:contain;border:1px solid #eee;border-radius:6px" />
+                         raw,
+                       )}" style="max-width:260px;max-height:260px;object-fit:contain;border:1px solid #eee;border-radius:6px" />
                        <a href="${escapeHTML(raw)}" target="_blank" rel="noreferrer">${escapeHTML(
-                raw,
-              )}</a>
+                         raw,
+                       )}</a>
                      </div>`;
             } else {
               val = `<a href="${escapeHTML(raw)}" target="_blank" rel="noreferrer">${escapeHTML(
@@ -257,10 +214,7 @@ const AutoDetail: React.FC<AutoDetailProps> = ({
             val = escapeHTML(raw);
           }
 
-          const label =
-            titleMap?.[k] !== undefined
-              ? escapeHTML(String(titleMap[k]))
-              : prettify(k);
+          const label = titleMap?.[k] !== undefined ? escapeHTML(String(titleMap[k])) : prettify(k);
 
           return `<tr>
             <th style="vertical-align:top;padding:8px 10px;border:1px solid #e5e5e5;background:#fafafa;width:220px">${label}</th>
