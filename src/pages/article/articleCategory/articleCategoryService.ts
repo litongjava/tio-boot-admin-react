@@ -4,9 +4,9 @@ export const articleCategoryBeforePageRequest = (params: any, isRecoveryMode?: b
   params.idType = 'long';
   params.remarkOp = "ct";
   params.orderBy = "orders";
-  params.update_time_type = "string[]";
+
   params.update_time_op = "bt";
-  params.update_time_to_type = "ISO8601";
+
   if (containsUpload) {
     params.json_fields = ["files"];
   }
