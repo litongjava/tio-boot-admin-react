@@ -17,7 +17,7 @@ export default () => {
     params.remarkOp = 'ct';
 
     params.orderBy = 'update_time';
-    params.update_time_type = 'string[]';
+
     params.update_time_op = 'bt';
     params.isAsc = 'false';
 

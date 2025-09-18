@@ -20,8 +20,7 @@ export default () => {
     params.remarkOp = 'ct';
 
     params.orderBy = 'update_time';
-    params.update_time_type = 'string[]';
-    params.update_time_to_type = 'ISO8601';
+
     params.date_type = 'string[]';
     params.date_to_type = 'ISO8601';
     params.lastmod_type = 'string[]';

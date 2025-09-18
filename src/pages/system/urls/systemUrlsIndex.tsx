@@ -23,7 +23,7 @@ const SystemUrlsConfigManagement: React.FC = () => {
     params.deleted = 0
     params.deletedLogic = 'or'
     params.orderBy = "update_time";
-    params.update_time_type = 'string[]';
+
     params.update_time_op = 'bt';
     params.isAsc = "false";
 
