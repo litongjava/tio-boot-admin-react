@@ -1,7 +1,6 @@
 import { Column } from '@ant-design/plots';
 import { Card, Col, DatePicker, Row, Tabs } from 'antd';
-import type { RangePickerProps } from 'antd/es/date-picker/generatePicker';
-import type dayjs from 'dayjs';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import numeral from 'numeral';
 import type { DataItem } from '../data.d';
 import useStyles from '../style.style';
@@ -29,11 +28,11 @@ const SalesCard = ({
   loading,
   selectDate,
 }: {
-  rangePickerValue: RangePickerProps<dayjs.Dayjs>['value'];
+  rangePickerValue: RangePickerProps['value'];
   isActive: (key: TimeType) => string;
   salesData: DataItem[];
   loading: boolean;
-  handleRangePickerChange: RangePickerProps<dayjs.Dayjs>['onChange'];
+  handleRangePickerChange: RangePickerProps['onChange'];
   selectDate: (key: TimeType) => void;
 }) => {
   const { styles } = useStyles();

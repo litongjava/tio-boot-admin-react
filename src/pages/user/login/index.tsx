@@ -1,3 +1,4 @@
+import {getErrorMessage} from '@/requestErrorConfig';
 import {Footer} from '@/components';
 import {login} from '@/services/ant-design-pro/api';
 import {getFakeCaptcha} from '@/services/ant-design-pro/login';
@@ -113,42 +114,40 @@ const Login: React.FC = () => {
         }));
       });
     }
+    return userInfo;
   };
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const response = await login({...values, type});
-      console.log("response:", response);
-      if (response.ok) {
-        const responseData = response.data;
-        localStorage.setItem('token', responseData.token as string);
-        const defaultLoginSuccessMessage = intl.formatMessage({
+      const response = await login({...values, type}, {skipErrorHandler: true});
+      const responseData = response?.data;
+      if (response?.ok === true && response.code !== 0 &&
+          responseData?.status === 'ok' &&
+          typeof responseData.token === 'string' && responseData.token.trim()) {
+        localStorage.setItem('token', responseData.token);
+        const userInfo = await fetchUserInfo();
+        if (!userInfo) {
+          localStorage.removeItem('token');
+          setUserLoginState({status: 'error', type});
+          messageApi.error('获取当前用户失败，请重新登录');
+          return;
+        }
+        messageApi.success(intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
-        });
-        messageApi.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+        }));
         const urlParams = new URL(window.location.href).searchParams;
-        window.location.href = urlParams.get('redirect') || '/';
-      } else {
-        const defaultLoginFailureMessage = intl.formatMessage({
-          id: 'pages.login.failure',
-          defaultMessage: '登录失败，请重试！',
-        });
-        messageApi.error(defaultLoginFailureMessage);
-
+        const redirect = urlParams.get('redirect');
+        window.location.href = redirect?.startsWith('/') && !redirect.startsWith('//')
+          ? redirect : '/';
+        return;
       }
-      // 如果失败去设置用户错误信
-      const loginResult: API.LoginResult = response.data;
-      setUserLoginState(loginResult);
+      setUserLoginState({status: 'error', type});
+      messageApi.error(getErrorMessage(response, '登录失败，请检查账号和密码'));
     } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
-      console.log(error);
-      messageApi.error(defaultLoginFailureMessage);
+      setUserLoginState({status: 'error', type});
+      messageApi.error(error instanceof Error ? error.message : '登录失败，请重试！');
     }
   };
   const {status, type: loginType} = userLoginState;

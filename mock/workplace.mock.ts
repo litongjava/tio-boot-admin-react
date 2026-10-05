@@ -1,4 +1,4 @@
-import { DataItem } from '@antv/g2plot/esm/interface/config';
+import type { DataItem, OfflineDataType } from '../src/pages/dashboard/workplace/data';
 import dayjs from 'dayjs';
 import type { Request, Response } from 'express';
 

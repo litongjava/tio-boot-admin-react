@@ -10,27 +10,27 @@ import {
 const tableName = "tio_boot_admin_system_urls";
 
 export async function pageSystemUrls(data: any): Promise<API.Result> {
-  return pageRequest(tableName, data)
+  return pageRequest(data, tableName)
 }
 
 
 export async function createSystemUrls(data: any) {
-  return createRequest(tableName, data);
+  return createRequest(data, tableName);
 }
 
 
 export async function removeSystemUrls(id: string) {
-  return softRemoveRequest(tableName, id);
+  return softRemoveRequest(id, tableName);
 }
 
-export async function batchRemoveSystemUrls(params: any) {
-  return softBatchRemoveRequest(tableName, "long[]", params);
+export async function batchRemoveSystemUrls(params: { id: string | number }[]) {
+  return softBatchRemoveRequest(params, tableName, "long[]");
 }
 
 export async function exportSystemUrls(params: any) {
-  return exportRequest(tableName, params);
+  return exportRequest(params, tableName);
 }
 
 export async function exportAllSystemUrls(params: any) {
-  return exportAllRequest(tableName, params);
+  return exportAllRequest(params, tableName);
 }

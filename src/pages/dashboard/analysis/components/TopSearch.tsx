@@ -3,7 +3,7 @@ import { Area } from '@ant-design/plots';
 import { Card, Col, Row, Table, Tooltip } from 'antd';
 import numeral from 'numeral';
 import React from 'react';
-import type { DataItem } from '../data.d';
+import type { DataItem, SearchDataType } from '../data.d';
 import useStyles from '../style.style';
 import NumberInfo from './NumberInfo';
 import Trend from './Trend';
@@ -17,7 +17,7 @@ const TopSearch = ({
   loading: boolean;
   visitData2: DataItem[];
   dropdownGroup: React.ReactNode;
-  searchData: DataItem[];
+  searchData: SearchDataType[];
 }) => {
   const { styles } = useStyles();
   console.log('styles:', styles);

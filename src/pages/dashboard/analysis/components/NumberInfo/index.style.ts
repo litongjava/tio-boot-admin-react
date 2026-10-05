@@ -2,6 +2,9 @@ import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(({ token }) => {
   return {
+    numberInfoLight: {
+      '& > div > span': { color: token.colorTextSecondary },
+    },
     suffix: {
       marginLeft: '4px',
       color: token.colorText,
@@ -11,7 +14,7 @@ const useStyles = createStyles(({ token }) => {
     numberInfoTitle: {
       marginBottom: '16px',
       color: token.colorText,
-      fontSize: token['font-size-lg'],
+      fontSize: token.fontSizeLG,
       transition: 'all 0.3s',
     },
     numberInfoSubTitle: {
@@ -32,11 +35,12 @@ const useStyles = createStyles(({ token }) => {
       textOverflow: 'ellipsis',
       wordBreak: 'break-all',
       '& > span': { color: token.colorText },
+      '& > span:first-child': { fontSize: token.fontSizeHeading3 },
     },
     subTotal: {
       marginRight: '0',
       color: token.colorTextSecondary,
-      fontSize: token['font-size-lg'],
+      fontSize: token.fontSizeLG,
       verticalAlign: 'top',
     },
     anticon: {

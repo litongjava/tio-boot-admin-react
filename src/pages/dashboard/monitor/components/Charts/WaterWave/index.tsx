@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import autoHeight from '../autoHeight';
+import autoHeight from '@/pages/dashboard/monitor/components/Charts/autoHeight';
+import styles from '@/pages/dashboard/monitor/components/Charts/WaterWave/index.less';
 
 /* eslint no-return-assign: 0 */
 /* eslint no-mixed-operators: 0 */
@@ -22,15 +23,7 @@ class WaterWave extends Component<WaterWaveProps> {
   componentDidMount() {
     this.renderChart();
     this.resize();
-    window.addEventListener(
-      'resize',
-      () => {
-        requestAnimationFrame(() => this.resize());
-      },
-      {
-        passive: true,
-      },
-    );
+    window.addEventListener('resize', this.resize, { passive: true });
   }
   componentDidUpdate(props: WaterWaveProps) {
     const { percent } = this.props;

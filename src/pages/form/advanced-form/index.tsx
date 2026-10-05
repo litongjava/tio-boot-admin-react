@@ -84,7 +84,7 @@ const AdvancedForm: FC<Record<string, any>> = () => {
       return (
         <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
           <CloseCircleOutlined className={styles.errorIcon} />
-          <div className={styles.errorMessage}>{err.errors[0]}</div>
+          <div>{err.errors[0]}</div>
           <div className={styles.errorField}>{fieldLabels[key]}</div>
         </li>
       );

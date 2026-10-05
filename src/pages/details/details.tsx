@@ -2,7 +2,7 @@ import AutoDetail from '@/components/common/AutoDetail';
 import { getRequest } from '@/utils/apiTable';
 import { message } from 'antd';
 import React from 'react';
-import { useParams } from 'umi';
+import { useParams } from '@umijs/max';
 
 export default () => {
   const { from, id } = useParams<{ from: string; id: string }>();

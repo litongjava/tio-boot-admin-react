@@ -157,3 +157,5 @@ vcpkg_installed/
 .umi-production/
 .umi/
 .deploy.toml
+.umi-test/
+__snapshots__/

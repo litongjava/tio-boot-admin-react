@@ -30,9 +30,13 @@ export async function getInitialState(): Promise<{
       const msg = await queryCurrentUser({
         skipErrorHandler: true,
       });
+      if (!msg?.data) {
+        throw new Error('未获取到当前用户');
+      }
       return msg.data;
     } catch (error) {
-      history.push(loginPath);
+      localStorage.removeItem('token');
+      history.replace(loginPath);
     }
     return undefined;
   };
@@ -147,6 +151,6 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
-  baseURL: appConfig.baseURL,
+  baseURL: isDev ? '' : appConfig.baseURL,
   ...errorConfig,
 };

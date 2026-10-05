@@ -18,15 +18,16 @@ export type AvatarListProps = {
   style?: React.CSSProperties;
   children: React.ReactElement<AvatarItemProps> | React.ReactElement<AvatarItemProps>[];
 };
+const avatarSizeToClassName = (styles: ReturnType<typeof useStyles>['styles'], size?: SizeType | 'mini') =>
+  classNames(styles.avatarItem, {
+    [styles.avatarItemLarge]: size === 'large',
+    [styles.avatarItemSmall]: size === 'small',
+    [styles.avatarItemMini]: size === 'mini',
+  });
+
 const Item: React.FC<AvatarItemProps> = ({ src, size, tips, onClick = () => {} }) => {
   const { styles } = useStyles();
-  const avatarSizeToClassName = (size?: SizeType | 'mini') =>
-    classNames(styles.avatarItem, {
-      [styles.avatarItemLarge]: size === 'large',
-      [styles.avatarItemSmall]: size === 'small',
-      [styles.avatarItemMini]: size === 'mini',
-    });
-  const cls = avatarSizeToClassName(size);
+  const cls = avatarSizeToClassName(styles, size);
   return (
     <li className={cls} onClick={onClick}>
       {tips ? (
@@ -58,7 +59,7 @@ const AvatarList: React.FC<AvatarListProps> & {
     }),
   );
   if (numToShow < numOfChildren) {
-    const cls = avatarSizeToClassName(size);
+    const cls = avatarSizeToClassName(styles, size);
     childrenWithProps.push(
       <li key="exceed" className={cls}>
         <Avatar size={size} style={excessItemsStyle}>{`+${numOfChildren - maxLength}`}</Avatar>

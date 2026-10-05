@@ -1,6 +1,4 @@
-import { DataItem } from '@antv/g2plot/esm/interface/config';
-
-export { DataItem };
+export type DataItem = VisitDataType;
 
 export interface VisitDataType {
   x: string;
@@ -21,8 +19,8 @@ export type OfflineDataType = {
 };
 
 export interface OfflineChartData {
-  date: number;
-  type: number;
+  date: string;
+  type: string;
   value: number;
 }
 
@@ -36,9 +34,9 @@ export interface AnalysisData {
   visitData: DataItem[];
   visitData2: DataItem[];
   salesData: DataItem[];
-  searchData: DataItem[];
+  searchData: SearchDataType[];
   offlineData: OfflineDataType[];
-  offlineChartData: DataItem[];
+  offlineChartData: OfflineChartData[];
   salesTypeData: DataItem[];
   salesTypeDataOnline: DataItem[];
   salesTypeDataOffline: DataItem[];

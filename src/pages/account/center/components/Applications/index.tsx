@@ -91,16 +91,12 @@ const Applications: React.FC = () => {
                 <ShareAltOutlined />
               </Tooltip>,
               <Dropdown
-                items={[
-                  {
-                    key: '1',
-                    title: '1st menu item',
-                  },
-                  {
-                    key: '2',
-                    title: '2nd menu item',
-                  },
-                ]}
+                menu={{
+                  items: [
+                    { key: '1', label: '1st menu item' },
+                    { key: '2', label: '2nd menu item' },
+                  ],
+                }}
                 key="ellipsis"
               >
                 <EllipsisOutlined />

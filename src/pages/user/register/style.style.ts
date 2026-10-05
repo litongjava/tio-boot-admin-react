@@ -37,9 +37,9 @@ const useStyles = createStyles(({ token }) => {
       transition: 'color 0.3s',
       color: token.colorError,
     },
-    'progress-pass > .progress': {
-      '.ant-progress-bg': { backgroundColor: token.colorWarning },
-    },
+    'progress-ok': { '.ant-progress-bg': { backgroundColor: token.colorSuccess } },
+    'progress-pass': { '.ant-progress-bg': { backgroundColor: token.colorWarning } },
+    'progress-poor': { '.ant-progress-bg': { backgroundColor: token.colorError } },
   };
 });
 
