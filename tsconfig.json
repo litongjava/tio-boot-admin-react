@@ -9,15 +9,24 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "declaration": true,
+    "declaration": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@@/*": ["./src/.umi/*"],
-      "@@test/*": ["./src/.umi-test/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@@/*": [
+        "./src/.umi/*"
+      ],
+      "@@test/*": [
+        "./src/.umi-test/*"
+      ]
     }
   },
-  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx"]
+  "include": [
+    "./**/*.d.ts",
+    "./**/*.ts",
+    "./**/*.tsx"
+  ]
 }
